@@ -1,12 +1,20 @@
 
 import './App.css'
-
+import {BrowserRouter,Routes,Route} from 'react-router'
 function App() {
   
 
   return (
     <>
-     <h1 className='bg-red-400 text-3xl'>This is my frontend page</h1>
+    <BrowserRouter>
+     <Routes>
+<Route path="/" element={<h1>Home</h1>}/>
+<Route path="/about" element={<h1>About</h1>}/>
+<Route path="/service" element={<h1>Service</h1>}/>
+
+
+     </Routes>
+    </BrowserRouter>
     </>
   )
 }
