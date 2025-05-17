@@ -1,6 +1,8 @@
 
 import './App.css'
 import {BrowserRouter,Routes,Route} from 'react-router'
+import Root from './components/Root'
+import Login from './pages/Login.jsx'
 function App() {
   
 
@@ -8,10 +10,10 @@ function App() {
     <>
     <BrowserRouter>
      <Routes>
-<Route path="/" element={<h1>Home</h1>}/>
-<Route path="/about" element={<h1>About</h1>}/>
-<Route path="/service" element={<h1>Service</h1>}/>
-
+<Route path="/" element={<Root/>}/>
+<Route path="/admin/dashboard" element={<h1>Admin dashboard</h1>}/>
+<Route path="/customer/dashboard" element={<h1>customer dashboard</h1>}/>
+<Route path="/login" element={<Login/>}/>
 
      </Routes>
     </BrowserRouter>
