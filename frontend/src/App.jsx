@@ -1,19 +1,19 @@
-
 import './App.css'
 import {BrowserRouter,Routes,Route} from 'react-router'
 import Root from './components/Root'
 import Login from './pages/Login.jsx'
 import ProtectedRoutes from './utils/ProtectedRoutes.jsx'
-function App() {
-  
+import Dashboard from './pages/DashBoard.jsx'
 
+function App() {
   return (
     <>
     <BrowserRouter>
      <Routes>
 <Route path="/" element={<Root/>}/>
 <Route path="/admin-dashboard" 
-element={<ProtectedRoutes requireRole={['admin']}>Admin dashboard</ProtectedRoutes>}
+element={<ProtectedRoutes requireRole={['admin']}>
+  <Dashboard/></ProtectedRoutes>}
   
 >
   <Route index
