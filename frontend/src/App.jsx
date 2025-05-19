@@ -4,7 +4,7 @@ import Root from './components/Root';
 import Login from './pages/Login.jsx';
 import ProtectedRoutes from './utils/ProtectedRoutes.jsx';
 import Dashboard from './pages/DashBoard.jsx';
-
+import Categories from './components/Categories.jsx'
 function App() {
   return (
     <BrowserRouter>
@@ -21,7 +21,8 @@ function App() {
         >
           {/* ✅ Relative paths for nested routes */}
           <Route index element={<h1>Summary of dashboard</h1>} />
-          <Route path="categories" element={<h1>Categories</h1>} />
+          <Route path="categories" element={<Categories />} />
+
            <Route path="products" element={<h1>products</h1>} />
             <Route path="orders" element={<h1>orders</h1>} />
              <Route path="suppliers" element={<h1>suppliers</h1>} />
