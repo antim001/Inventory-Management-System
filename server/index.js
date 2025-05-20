@@ -9,7 +9,7 @@ const PORT=process.env.PORT || 7000
 app.use(cors());
 app.use(express.json())
 app.use('/api/auth',auth);
-app.use('/api/category'.categoryRoutes);
+app.use('/api/category',categoryRoutes);
 
 
 app.listen(PORT,()=>{
