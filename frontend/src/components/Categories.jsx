@@ -1,28 +1,37 @@
 import React from "react";
 import axios from 'axios'
 import {useState} from "react"
+import { toast } from "react-hot-toast";
 const Categories = () => {
     const [categoryName,setCategoryName]=useState("")
     const [categoryDescription,setCategoryDescription] =useState("")
 
-    const handleSubmit= async(e)=>{
-        e.preventDefault();
-        const response =await axios.post("http://localhost:5000/api/category/add",{categoryName,categoryDescription},
-            {
-                headers:{
-                    Authorization:`Bearer ${localStorage.getItem("pos-token")}`
-                }
-            }
-        );
-        if(response.data.success){
-             alert("Category added successfully")
-             setCategoryName("");
-             setCategoryDescription("")
-        }else{
-            console.error("Error adding category",data);
-            alert("Error adding category.Please try again")
-        }
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/category/add",
+      { categoryName, categoryDescription },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
+        },
+      }
+    );
+
+    if (response.data.success) {
+       toast.success("Category added successfully");
+      setCategoryName("");
+      setCategoryDescription("");
+    } else {
+      alert("Error adding category. Please try again");
     }
+  } catch (error) {
+    console.error("Error while adding category:", error);
+     toast.error("Something went wrong. Please check your server.");
+  }
+};
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center  px-2">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
