@@ -18,4 +18,12 @@ const addCategory =async(req,res)=>{
   return res.status(500).json({success:false,message:"server error"})
     }
 }
-export default addCategory;
+const getCategory =async(req,res)=>{
+  try{
+    const categories =await Category.find();
+    return res.status(200).json({success:true,categories})
+  }catch(error){
+return res.status(500).json({success:false,message:"server error in getting categories"})
+  }
+}
+export  {addCategory,getCategory};
