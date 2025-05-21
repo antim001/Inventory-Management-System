@@ -7,9 +7,9 @@ const Root =()=>{
    useEffect(()=>{
       if(user){
         if(user.role==='admin'){
-             naviate('/admin/dashboard')
+             naviate('/admin-dashboard')
         }else if(user.role==="customer"){
-            navigate('customer/dashboard')
+            navigate('customer-dashboard')
         }else{
             navigate('/login')
         }

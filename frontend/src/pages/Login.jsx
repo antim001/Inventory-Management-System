@@ -11,35 +11,42 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
 
-    try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password
-      });
+  try {
+    const response = await axios.post("http://localhost:5000/api/auth/login", {
+      email,
+      password
+    });
 
-      if (response.data.success) {
-        await login(response.data.user);
+    if (response.data.success) {
+      // ✅ Save token and user to localStorage
+      localStorage.setItem("pos-token", response.data.token);
+      localStorage.setItem("pos-user", JSON.stringify(response.data.user));
 
-        if (response.data.user.role === "admin") {
-          navigate("/admin/dashboard");
-        } else {
-          navigate("/customer/dashboard");
-        }
+      // ✅ Use your AuthContext login method
+      await login(response.data.user,response.data.token);
+
+      // ✅ Redirect based on role
+      if (response.data.user.role === "admin") {
+        navigate("/admin-dashboard");
       } else {
-        setError(response.data.error || "Invalid credentials");
+        navigate("/customer-dashboard");
       }
-    } catch (error) {
-      console.error(error);
-      setError("An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
+    } else {
+      setError(response.data.error || "Invalid credentials");
     }
-  };
+  } catch (error) {
+    console.error(error);
+    setError("An error occurred. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-white-400 to-white-600">
