@@ -33,6 +33,33 @@ const Categories = () => {
   // Submit handler (no change)
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(editCategory){
+      try {
+      const response = await axios.put(
+        `http://localhost:5000/api/category/${editCategory}`,
+        { categoryName, categoryDescription },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        setEditCategory(null)
+        setCategoryName('');
+        setCategoryDescription()
+        toast.success(" category edited successfully");
+        fetchCategories();
+      } else {
+        toast.error("Error adding category. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error while adding category:", error);
+      toast.error("Something went wrong. Please check your server.");
+    }
+    }else{
     try {
       const response = await axios.post(
         "http://localhost:5000/api/category/add",
@@ -56,7 +83,35 @@ const Categories = () => {
       console.error("Error while adding category:", error);
       toast.error("Something went wrong. Please check your server.");
     }
+  }
   };
+const handleDelete = async (id) => {
+  const confirmDelete = window.confirm("Are you sure you want to delete this?");
+  if (confirmDelete) {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/category/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        toast.success("Category deleted successfully");
+        fetchCategories();
+      } else {
+        console.error("Error deleting category", response.data);
+        toast.error("Deleting problem found");
+      }
+    } catch (error) {
+      console.error("Error deleting category", error);
+      toast.error("Deleting problem found");
+    }
+  }
+};
+
 
   const handleEdit = (category) => {
     setEditCategory(category._id);
@@ -112,10 +167,10 @@ const Categories = () => {
                 required
               />
             </div>
-
+<div className='flex space-x-2'>
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition duration-200"
+              className="w-full bg-blue-500 mt-2 hover:bg-blue-600 text-white font-semibold p-3 rounded-md transition duration-200"
             >
               {editCategory ? "Save changes" : "Add category"}
             </button>
@@ -123,12 +178,14 @@ const Categories = () => {
             {editCategory && (
               <button
                 type="button"
-                className="w-full mt-2 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600 transition duration-200"
+                className="w-full mt-2 bg-red-500 text-white font-semibold p-3 rounded-md hover:bg-red-600 transition duration-200"
                 onClick={handleCancel}
               >
                 Cancel
               </button>
             )}
+</div>
+
           </form>
         </div>
       </div>
@@ -158,7 +215,9 @@ const Categories = () => {
                     >
                       Edit
                     </button>
-                    <button className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600">
+                    <button className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600"
+                    onClick={()=>handleDelete(category._id)}
+                    >
                       Delete
                     </button>
                   </td>

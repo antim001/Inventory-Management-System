@@ -4,7 +4,8 @@ import Root from './components/Root';
 import Login from './pages/Login.jsx';
 import ProtectedRoutes from './utils/ProtectedRoutes.jsx';
 import Dashboard from './pages/DashBoard.jsx';
-import Categories from './components/Categories.jsx'
+import Categories from './components/Categories.jsx';
+import Supplier from './components/Supplier.jsx'
 function App() {
   return (
     <BrowserRouter>
@@ -25,7 +26,7 @@ function App() {
 
            <Route path="products" element={<h1>products</h1>} />
             <Route path="orders" element={<h1>orders</h1>} />
-             <Route path="suppliers" element={<h1>suppliers</h1>} />
+             <Route path="suppliers" element={<Supplier/>} />
               <Route path="users" element={<h1>users</h1>} />
         </Route>
 
