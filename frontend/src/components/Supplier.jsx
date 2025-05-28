@@ -5,7 +5,8 @@ import { toast } from "react-hot-toast";
 const Supplier = () => {
   const [addEditModel, setEditModel] = useState(null);
   const [suppliers,setSuppliers] =useState([]);
-  const [loading,setLoading]=useState(false)
+  const [loading,setLoading]=useState(false);
+ 
 
   const [formData, setFormData] = useState({
     Supplier_Name: '',
@@ -13,7 +14,15 @@ const Supplier = () => {
     Supplier_Phone: '',
     Supplier_address: '',
   });
-
+const handleEdit =(supplier)=>{
+  setFormData({
+    Supplier_Name:supplier.Supplier_Name,
+   Supplier_email:supplier.Supplier_email,
+    Supplier_Phone:supplier.Supplier_Phone,
+     Supplier_address:supplier.Supplier_address,
+  });
+  setEditModel(supplier._id);
+}
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
