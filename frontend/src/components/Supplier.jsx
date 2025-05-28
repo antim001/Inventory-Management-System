@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 
 const Supplier = () => {
   const [addEditModel, setEditModel] = useState(null);
+  const [editSupplier,setEditsupplier]=useState(null)
   const [suppliers,setSuppliers] =useState([]);
   const [loading,setLoading]=useState(false);
  
@@ -21,7 +22,8 @@ const handleEdit =(supplier)=>{
     Supplier_Phone:supplier.Supplier_Phone,
      Supplier_address:supplier.Supplier_address,
   });
-  setEditModel(supplier._id);
+  setEditsupplier(supplier._id);
+  setEditModel(true)
 }
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +48,7 @@ const handleEdit =(supplier)=>{
 
       if (response.data.success) {
         toast.success("Supplier added successfully");
-        setEditModel(null);
+        setEditModel(false);
         setFormData({
           Supplier_Name: '',
           Supplier_email: '',
@@ -79,6 +81,15 @@ const handleEdit =(supplier)=>{
   useEffect(()=>{
   fetchSuppliers()
   },[])
+  const closeModel =()=>{
+    setEditModel(false);
+    setFormData({
+     Supplier_Name: '',
+    Supplier_email: '',
+    Supplier_Phone: '',
+    Supplier_address: '',
+    })
+  }
   return (
     <div className='w-full h-full flex flex-col gap-4 p-4'>
       <h1 className='text-2xl font-bold'>Supplier Management</h1>
@@ -90,7 +101,17 @@ const handleEdit =(supplier)=>{
         />
         <button
           className='px-4 py-1.5 bg-blue-500 text-white rounded cursor-pointer'
-          onClick={() => setEditModel(1)}
+          onClick={() => {
+  setEditModel(true);        // Open modal
+  setEditsupplier(null);     // Clear editing ID (because it's a new supplier)
+  setFormData({              // Clear the form
+    Supplier_Name: '',
+    Supplier_email: '',
+    Supplier_Phone: '',
+    Supplier_address: '',
+  });
+}}
+
         >
           Add Supplier
         </button>
@@ -161,7 +182,7 @@ const handleEdit =(supplier)=>{
             <h1 className='text-xl font-bold'>Add Supplier</h1>
             <button
               className='absolute top-4 right-4 font-bold text-lg'
-              onClick={() => setEditModel(null)}
+              onClick={closeModel}
             >
               X
             </button>
@@ -202,9 +223,25 @@ const handleEdit =(supplier)=>{
                 required
                 className='border p-1 bg-white rounded px-4'
               />
-              <button className='px-4 py-1.5 bg-blue-500 text-white rounded cursor-pointer'>
-                Add Supplier
+              
+              <div className='flex space-x-2'>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 mt-2 hover:bg-blue-600 text-white font-semibold p-3 rounded-md transition duration-200"
+            >
+              {editSupplier ? "Save changes" : "Add supplier"}
+            </button>
+
+            {editSupplier && (
+              <button
+                type="button"
+                className="w-full mt-2 bg-red-500 text-white font-semibold p-3 rounded-md hover:bg-red-600 transition duration-200"
+                onClick={closeModel}
+              >
+                Cancel
               </button>
+            )}
+</div>
             </form>
           </div>
         </div>
